@@ -94,14 +94,18 @@ class LoginActivity : AppCompatActivity() {
     fun signinAndSignup() {
         val email_str = email_edittext.text.toString()
         val password_str = password_edittext.text.toString()
+
         auth?.createUserWithEmailAndPassword(email_str, password_str)
             ?.addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     // create a user account
                     moveMainPage(task.result?.user)
                 } else if (!task.exception?.message.isNullOrEmpty()) {
-                    // show the error message
-                    Toast.makeText(this, task.exception?.message, Toast.LENGTH_SHORT).show()
+                    if(task.exception?.message!!.contains("already")){
+                        signinEmail()
+                    }else{
+                        Toast.makeText(this, task.exception?.message, Toast.LENGTH_SHORT).show()
+                    }
                 } else {
                     // login if you have account
                     signinEmail()
