@@ -25,10 +25,11 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
         ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 1)
 
         bottom_navigation.setOnItemSelectedListener(this)
+        bottom_navigation.selectedItemId = R.id.action_home
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        Log.d("ITEM", item.toString())
+
         when(item.itemId){
          R.id.action_home ->{
              var detailViewFragment = DetailViewFragment()
