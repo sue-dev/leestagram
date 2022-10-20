@@ -11,6 +11,7 @@ import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.google.firebase.firestore.FirebaseFirestore
 import com.study.leestagram.R
 import com.study.leestagram.navigation.model.ContentDTO
@@ -68,8 +69,10 @@ class DetailViewFragment : Fragment() {
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             var viewHolder = (holder as CustomViewHolder)
             viewHolder.item_content_textview.text = contentDTOList!![position].description
-            viewHolder.item_content.setImageURI(contentDTOList!![position].imageUrl?.toUri())
             viewHolder.item_username.text = contentDTOList!![position].userId
+
+            //glide
+            Glide.with(viewHolder.itemView).load(contentDTOList!![position].imageUrl?.toUri()).into(viewHolder.item_content)
         }
 
     }
