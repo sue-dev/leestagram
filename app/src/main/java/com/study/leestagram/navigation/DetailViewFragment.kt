@@ -68,11 +68,17 @@ class DetailViewFragment : Fragment() {
 
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             var viewHolder = (holder as CustomViewHolder)
-            viewHolder.item_content_textview.text = contentDTOList!![position].description
-            viewHolder.item_username.text = contentDTOList!![position].userId
+            var data = contentDTOList[position] ?: ContentDTO()
+            viewHolder.item_content_textview.text = data.description
+            viewHolder.item_username.text = data.userId
 
             //glide
-            Glide.with(viewHolder.itemView).load(contentDTOList!![position].imageUrl?.toUri()).into(viewHolder.item_content)
+            Glide
+                .with(viewHolder.itemView)
+                .load(data.imageUrl)
+                .placeholder(R.color.black)
+                .into(viewHolder.item_content)
+
         }
 
     }
