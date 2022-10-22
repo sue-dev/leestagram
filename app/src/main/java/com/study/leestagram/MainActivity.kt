@@ -12,20 +12,23 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarView
+import com.study.leestagram.databinding.ActivityMainBinding
 import com.study.leestagram.navigation.*
 
 class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListener {
-    val bottom_navigation: BottomNavigationView by lazy{
-        findViewById(R.id.bottom_navigation)
-    }
+
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 1)
 
-        bottom_navigation.setOnItemSelectedListener(this)
-        bottom_navigation.selectedItemId = R.id.action_home
+        binding.bottomNavigation.setOnItemSelectedListener(this)
+        binding.bottomNavigation.selectedItemId = R.id.action_home
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

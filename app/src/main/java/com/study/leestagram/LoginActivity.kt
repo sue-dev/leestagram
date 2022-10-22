@@ -19,6 +19,8 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
+import com.study.leestagram.databinding.ActivityLoginBinding
+import com.study.leestagram.databinding.ActivityMainBinding
 
 
 class LoginActivity : AppCompatActivity() {
@@ -26,28 +28,17 @@ class LoginActivity : AppCompatActivity() {
     var googleSigninClient: GoogleSignInClient? = null
     val GOOGLE_LOGIN_CODE = 9001
 
-    val email_edittext: EditText by lazy {
-        findViewById(R.id.email_edittext)
-    }
-    val password_edittext: EditText by lazy {
-        findViewById(R.id.password_edittext)
-    }
-
-    private val email_login_button: AppCompatButton by lazy {
-        findViewById(R.id.email_login_button)
-    }
-
-    private val google_sign_in_button: AppCompatButton by lazy {
-        findViewById(R.id.google_sign_in_button)
-    }
+    private lateinit var binding: ActivityLoginBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+
+        binding = ActivityLoginBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         auth = FirebaseAuth.getInstance()
 
-        email_login_button.setOnClickListener {
+        binding.emailLoginButton.setOnClickListener {
             signinAndSignup()
         }
 
@@ -69,7 +60,7 @@ class LoginActivity : AppCompatActivity() {
                     firebaseAuthWithGoogle(account)
                 }
             }
-        google_sign_in_button.setOnClickListener {
+        binding.googleSignInButton.setOnClickListener {
             resultLauncher.launch(googleSignInIntent)
         }
     }
@@ -92,8 +83,8 @@ class LoginActivity : AppCompatActivity() {
     }
 
     fun signinAndSignup() {
-        val email_str = email_edittext.text.toString()
-        val password_str = password_edittext.text.toString()
+        val email_str = binding.emailEdittext.text.toString()
+        val password_str = binding.passwordEdittext.text.toString()
 
         auth?.createUserWithEmailAndPassword(email_str, password_str)
             ?.addOnCompleteListener { task ->
@@ -122,8 +113,8 @@ class LoginActivity : AppCompatActivity() {
     }
 
     fun signinEmail() {
-        val email_str = email_edittext.text.toString()
-        val password_str = password_edittext.text.toString()
+        val email_str = binding.emailEdittext.text.toString()
+        val password_str = binding.passwordEdittext.text.toString()
         auth?.signInWithEmailAndPassword(email_str, password_str)
             ?.addOnCompleteListener { task ->
                 if (task.isSuccessful) {

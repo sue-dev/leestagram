@@ -14,20 +14,25 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.firebase.firestore.FirebaseFirestore
 import com.study.leestagram.R
+import com.study.leestagram.databinding.FragmentDetailBinding
 import com.study.leestagram.navigation.model.ContentDTO
 
 class DetailViewFragment : Fragment() {
+    private var _binding : FragmentDetailBinding? = null
+    private val binding get() = _binding !!
+
     var firestore: FirebaseFirestore? = null
+
 
     override fun onCreateView( inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
-        var view = LayoutInflater.from(activity).inflate(R.layout.fragment_detail, container, false)
+        _binding = FragmentDetailBinding.inflate(inflater, container, false)
+        var view = binding.root
 
         firestore = FirebaseFirestore.getInstance()
 
-        val detailfragment_rv = view.findViewById<RecyclerView>(R.id.detailfragment_recycler_view)
-        detailfragment_rv.adapter = DetailViewRecyclerViewAdaptor()
-        detailfragment_rv.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+        binding.detailfragmentRecyclerView.adapter = DetailViewRecyclerViewAdaptor()
+        binding.detailfragmentRecyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
 
         return view
     }
@@ -60,6 +65,7 @@ class DetailViewFragment : Fragment() {
             var item_content_textview = itemView.findViewById<TextView>(R.id.item_content_textview)
             var item_content = itemView.findViewById<ImageView>(R.id.item_content)
             var item_username = itemView.findViewById<TextView>(R.id.item_username)
+            var favorite_count_textview = itemView.findViewById<TextView>(R.id.favorite_count_textview)
         }
 
         override fun getItemCount(): Int {
@@ -71,6 +77,8 @@ class DetailViewFragment : Fragment() {
             var data = contentDTOList[position] ?: ContentDTO()
             viewHolder.item_content_textview.text = data.description
             viewHolder.item_username.text = data.userId
+            viewHolder.favorite_count_textview.text = data.favoriteCount.toString()
+//            viewHolder.favorite_button
 
             //glide
             Glide
@@ -79,6 +87,10 @@ class DetailViewFragment : Fragment() {
                 .placeholder(R.color.black)
                 .into(viewHolder.item_content)
 
+        }
+
+        fun favoriteEvent(position: Int){
+//            Log.d("data", )
         }
 
     }
