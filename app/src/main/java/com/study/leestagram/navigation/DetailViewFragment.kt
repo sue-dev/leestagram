@@ -13,28 +13,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.firebase.firestore.FirebaseFirestore
+import com.study.leestagram.BaseFragment
 import com.study.leestagram.R
 import com.study.leestagram.databinding.FragmentDetailBinding
 import com.study.leestagram.navigation.model.ContentDTO
 
-class DetailViewFragment : Fragment() {
-    private var _binding : FragmentDetailBinding? = null
-    private val binding get() = _binding !!
-
-    var firestore: FirebaseFirestore? = null
-
-
-    override fun onCreateView( inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentDetailBinding.inflate(inflater, container, false)
-        var view = binding.root
-
-        firestore = FirebaseFirestore.getInstance()
+class DetailViewFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding::inflate) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         binding.detailfragmentRecyclerView.adapter = DetailViewRecyclerViewAdaptor()
         binding.detailfragmentRecyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
 
-        return view
     }
 
     inner class DetailViewRecyclerViewAdaptor: RecyclerView.Adapter<RecyclerView.ViewHolder>(){
