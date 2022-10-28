@@ -32,7 +32,7 @@ class DetailViewFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBin
         var contentUidList : ArrayList<String> = arrayListOf()
 
         init {
-            firestore?.collection("images")
+            firestore?.collection("contents")
                 ?.addSnapshotListener { snapshotQuery, error ->
                     contentDTOList.clear()
                     contentUidList.clear()
@@ -79,8 +79,8 @@ class DetailViewFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBin
 
         }
 
-        fun favoriteEvent(position: Int){
-//            Log.d("data", )
+        fun favoriteClickEvent(position: Int){
+
         }
 
     }

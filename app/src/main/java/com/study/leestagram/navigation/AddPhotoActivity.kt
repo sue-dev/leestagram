@@ -78,7 +78,7 @@ class AddPhotoActivity : AppCompatActivity() {
                         contentDTO.description = add_photo_edit_description.text.toString()
                         contentDTO.timestamp = System.currentTimeMillis()
 
-                        firestore?.collection("images")?.document()?.set(contentDTO)
+                        firestore?.collection("contents")?.document()?.set(contentDTO)
 
                         Toast.makeText(this, "업로드가 완료되었습니다.", Toast.LENGTH_SHORT).show()
                         setResult(Activity.RESULT_OK)
