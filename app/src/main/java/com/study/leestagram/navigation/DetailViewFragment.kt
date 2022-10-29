@@ -1,5 +1,6 @@
 package com.study.leestagram.navigation
 
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -56,6 +57,8 @@ class DetailViewFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBin
             var item_content = itemView.findViewById<ImageView>(R.id.item_content)
             var item_username = itemView.findViewById<TextView>(R.id.item_username)
             var favorite_count_textview = itemView.findViewById<TextView>(R.id.favorite_count_textview)
+
+            var favoritBtn = itemView.findViewById<ImageView>(R.id.favorite_button)
         }
 
         override fun getItemCount(): Int {
@@ -65,10 +68,16 @@ class DetailViewFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBin
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             var viewHolder = (holder as CustomViewHolder)
             var data = contentDTOList[position] ?: ContentDTO()
+
             viewHolder.item_content_textview.text = data.description
             viewHolder.item_username.text = data.userId
             viewHolder.favorite_count_textview.text = data.favoriteCount.toString()
-//            viewHolder.favorite_button
+
+            if( data.favorites.containsKey(uid)){
+                viewHolder.favoritBtn.setImageResource(R.drawable.ic_favorite)
+            }else{
+                viewHolder.favoritBtn.setImageResource(R.drawable.ic_favorite_border)
+            }
 
             //glide
             Glide
@@ -77,9 +86,26 @@ class DetailViewFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBin
                 .placeholder(R.color.black)
                 .into(viewHolder.item_content)
 
+            viewHolder.favoritBtn.setOnClickListener {
+                likeEvent(position)
+            }
         }
 
-        fun favoriteClickEvent(position: Int){
+        fun likeEvent(position: Int){
+            val docRef = firestore?.collection("contents")?.document(contentUidList[position])
+
+            firestore?.runTransaction{ transaction ->
+                val content = transaction.get(docRef!!).toObject(ContentDTO::class.java)
+
+                if(content!!.favorites.containsKey(uid)){
+                    content.favoriteCount -= 1
+                    content.favorites.remove(uid)
+                } else {
+                    content.favoriteCount += 1
+                    content.favorites.put(uid.toString(), true)
+                }
+                transaction.set(docRef, content)
+            }
 
         }
 
