@@ -53,10 +53,10 @@ class DetailViewFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBin
         }
 
         inner class CustomViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-            var item_content_textview = itemView.findViewById<TextView>(R.id.item_content_textview)
-            var item_content = itemView.findViewById<ImageView>(R.id.item_content)
-            var item_username = itemView.findViewById<TextView>(R.id.item_username)
-            var favorite_count_textview = itemView.findViewById<TextView>(R.id.favorite_count_textview)
+            var itemContentTextview = itemView.findViewById<TextView>(R.id.item_content_textview)
+            var itemContent = itemView.findViewById<ImageView>(R.id.item_content)
+            var itemUsername = itemView.findViewById<TextView>(R.id.item_username)
+            var favoriteCountTextview = itemView.findViewById<TextView>(R.id.favorite_count_textview)
 
             var favoritBtn = itemView.findViewById<ImageView>(R.id.favorite_button)
         }
@@ -69,9 +69,9 @@ class DetailViewFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBin
             var viewHolder = (holder as CustomViewHolder)
             var data = contentDTOList[position] ?: ContentDTO()
 
-            viewHolder.item_content_textview.text = data.description
-            viewHolder.item_username.text = data.userId
-            viewHolder.favorite_count_textview.text = data.favoriteCount.toString()
+            viewHolder.itemContentTextview.text = data.description
+            viewHolder.itemUsername.text = data.userId
+            viewHolder.favoriteCountTextview.text = data.favoriteCount.toString()
 
             if( data.favorites.containsKey(uid)){
                 viewHolder.favoritBtn.setImageResource(R.drawable.ic_favorite)
@@ -84,7 +84,7 @@ class DetailViewFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBin
                 .with(viewHolder.itemView)
                 .load(data.imageUrl)
                 .placeholder(R.color.black)
-                .into(viewHolder.item_content)
+                .into(viewHolder.itemContent)
 
             viewHolder.favoritBtn.setOnClickListener {
                 likeEvent(position)
